@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html></html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><x-gif></title>
+  <script>
+    if ('registerElement' in document
+      && 'createShadowRoot' in HTMLElement.prototype
+      && 'import' in document.createElement('link')
+      && 'content' in document.createElement('template')) {
+      // We're using a browser with native WC support!
+    } else {
+      document.write('<script src="assets/platform.js"><\/script>')
+    }
+  </script>
+  <link rel="import" href="assets/x-gif.html">
+  <link rel="import" href="x-beat/x-beat.html">
+</head>
+<body>
+  <h1>&lt;x-beat&gt;</h1>
+  <x-beat></x-beat>
+</body>
