@@ -2,7 +2,7 @@ extends _layout.jade
 block content
   h1= "<x-beat>"
   x-beat(midi channel="0" note="65")
-  x-gif(src="https://s3-us-west-2.amazonaws.com/x-gif-tests/pulse.gif" sync)
+  x-gif(src="https://s3-us-west-2.amazonaws.com/x-gif-tests/explosion.gif" sync ping-pong)
   script.
     var xBeat = document.querySelector('x-beat'),
       xGif = document.querySelector('x-gif');

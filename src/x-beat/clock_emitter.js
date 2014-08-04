@@ -14,20 +14,20 @@ class ClockEmitter {
 
   beatDetected() {
     var nowBeat = performance.now(),
-      timeFast = nowBeat - this.lastVisualBeat,
-      timeSlow = this.nextVisualBeat - nowBeat,
+      timeFast = this.nextVisualBeat - nowBeat,
+      timeSlow = nowBeat - this.lastVisualBeat,
       lastBeatDuration = nowBeat - this.lastRealBeat;
     this.lastRealBeat = nowBeat;
     if (isNaN(lastBeatDuration)) return;
 
     console.log("LAST BEAT DURATION: " + lastBeatDuration);
     console.log("BEAT ESTIMATE: " + this.beatDurationEstimate)
-    var adjustment, newInformationBlend = 0.1, speedUp = 0.1;
-    if (timeFast > timeSlow) {
-      console.log("FAST")
+    var adjustment, newInformationBlend = 0.2, speedUp = 0.1;
+    if (timeFast < timeSlow) {
+      console.log("FAST BY " + timeFast)
       adjustment = timeFast * speedUp * -1;
     } else {
-      console.log("SLOW")
+      console.log("SLOW BY " + timeSlow)
       adjustment = timeSlow * speedUp;
     }
     this.beatDurationEstimate =
