@@ -1,5 +1,6 @@
 import {Attributes} from './x-beat/utils.js'
-import MidiController from './x-beat/midi-controller.js'
+import MidiListener from './x-beat/midi_listener.js'
+import ClockEmitter from './x-beat/clock_emitter.js'
 
 class XBeat extends HTMLElement {
   createdCallback() {
@@ -19,7 +20,8 @@ class XBeat extends HTMLElement {
       console.error("Both CHANNEL and NOTE are required for a MIDI x-beat!");
       return;
     }
-    this.controller = new MidiController(this, maybeChannel, maybeNote);
+    this.beatListener = new MidiListener(this, maybeChannel, maybeNote);
+    this.clockEmitter = new ClockEmitter(this);
   }
 }
 
