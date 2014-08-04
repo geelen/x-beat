@@ -1,4 +1,5 @@
-export default class ClockEmitter {
+export default
+class ClockEmitter {
   constructor(xBeat) {
     this.xBeat = xBeat;
     this.beatNr = 0;
@@ -21,15 +22,18 @@ export default class ClockEmitter {
 
     console.log("LAST BEAT DURATION: " + lastBeatDuration);
     console.log("BEAT ESTIMATE: " + this.beatDurationEstimate)
-    var adjustment;
+    var adjustment, newInformationBlend = 0.1, speedUp = 0.1;
     if (timeFast > timeSlow) {
       console.log("FAST")
-      adjustment = timeFast / -8;
+      adjustment = timeFast * speedUp * -1;
     } else {
       console.log("SLOW")
-      adjustment = timeSlow / 8;
+      adjustment = timeSlow * speedUp;
     }
-    this.beatDurationEstimate = adjustment + (this.beatDurationEstimate + lastBeatDuration) / 2
+    this.beatDurationEstimate =
+      this.beatDurationEstimate * (1 - newInformationBlend) +
+      lastBeatDuration * newInformationBlend +
+      adjustment;
   }
 
   emitClock() {
@@ -40,7 +44,9 @@ export default class ClockEmitter {
       this.nextVisualBeat = this.lastVisualBeat + this.beatDurationEstimate;
       this.beatNr++;
     }
-    var beat = new CustomEvent('x-beat-clock', this.beatNr, this.beatDurationEstimate, nowFrame - this.lastVisualBeat);
+    var beat = new CustomEvent('x-beat-clock', {
+      detail: [this.beatNr, this.beatDurationEstimate, (nowFrame - this.lastVisualBeat) / this.beatDurationEstimate]
+    });
     this.xBeat.dispatchEvent(beat, true);
   }
 }
