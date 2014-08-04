@@ -18,9 +18,23 @@
   <link rel="import" href="x-beat/x-beat.html">
 </head>
 <body>
+  <style>
+    x-gif {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    h1 {
+      background-color: rgba(255,255,255,0.1);
+      float: left;
+    }
+  </style>
   <h1>&lt;x-beat&gt;</h1>
   <x-beat midi channel="0" note="65"></x-beat>
-  <x-gif src="https://s3-us-west-2.amazonaws.com/x-gif-tests/explosion.gif" sync ping-pong></x-gif>
+  <x-gif src="https://s3-us-west-2.amazonaws.com/x-gif-tests/explosion.gif" sync ping-pong fill></x-gif>
   <script>
     var xBeat = document.querySelector('x-beat'),
       xGif = document.querySelector('x-gif');
