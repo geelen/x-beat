@@ -1,0 +1,29 @@
+{
+  "name": "x-beat",
+  "version": "0.0.0",
+  "description": "",
+  "main": "x-beat.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/geelen/x-beat.git"
+  },
+  "author": "Glen Maddern",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geelen/x-beat/issues"
+  },
+  "homepage": "https://github.com/geelen/x-beat",
+  "devDependencies": {
+    "gulp-load-plugins": "~0.5.3",
+    "gulp-clean": "~0.3.1",
+    "gulp-uglify": "~0.3.1",
+    "es6ify": "~1.2.0",
+    "gulp-jade": "~0.7.0",
+    "gulp-webserver": "~0.5.0",
+    "gulp": "~3.8.7",
+    "gulp-browserify": "~0.5.0"
+  }
+}
