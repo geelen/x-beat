@@ -8,7 +8,7 @@ gulp.task('js', function () {
       add: [ es6ify.runtime ],
       transform: ['es6ify']
     }))
-    .pipe($.uglify())
+//    .pipe($.uglify())
     .pipe(gulp.dest('build'));
 });
 
