@@ -8,25 +8,39 @@ block content
       }
     }
     svg {
-      width: 800px;
-      height: 400px;
+      padding: 1rem 0;
+      font: 12px 'Helvetica Neue';
     }
     path {
+      fill: none;
       stroke: #000;
       stroke-width: 1px;
-      shape-rendering: crispEdges;
-      transform: translateX(800px);
-      transition: all 10s linear;
     }
-    path.red {
-      stroke: rgba(255,0,0,0.5);
+    line {
+      fill: none;
+      stroke: #000;
     }
-    path.blue {
-      stroke: rgba(0,0,255,0.5);
+    .axis text {
+      display: none;
     }
-    path.gtfo {
-      transform: translateX(-800px);
+    .bpm.midi {
+      stroke: blue;
     }
+    .bpm.visual {
+      stroke: red;
+    }
+    /*path.red {*/
+      /*stroke: rgba(255,0,0,0.5);*/
+    /*}*/
+    /*path.blue {*/
+      /*stroke: rgba(0,0,255,0.5);*/
+    /*}*/
+    /*path.gtfo {*/
+      /*transform: translateX(-800px);*/
+    /*}*/
 
   x-beat(midi channel="0" note="65")
+  svg.d3-svg
+  svg.raw-svg
+  script(src="assets/d3.min.js")
   script(src="assets/d3_beat_graph.js")

@@ -1,12 +1,11 @@
 (function () {
   'use strict';
 
-  var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"),
+  var svg = document.querySelector('.raw-svg'),
     xBeat = document.querySelector('x-beat'),
     lastMidiBeat, lastVisualBeat;
-  document.body.appendChild(svg);
 
-  var drawLine = function(type, coords) {
+  var drawLine = function (type, coords) {
     requestAnimationFrame(function () {
       var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       path.setAttribute('d', coords);
@@ -41,4 +40,82 @@
     lastMidiBeat = now;
   });
 
-})();
+});//();
+
+(function (d3) {
+  var xBeat = document.querySelector('x-beat'),
+    lastMidiBeat, lastVisualBeat, midiBpms = [], visualBpms = [];
+
+  var now = performance.now() / 1000,
+    width = 800,
+    height = 200;
+
+  var x = d3.scale.linear()
+    .domain([now - 10, now + 2])
+    .range([0, width]);
+
+  var y = d3.scale.linear()
+    .domain([60, 200])
+    .range([height, 0]);
+
+  var svg = d3.select(".d3-svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  var axis = svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
+
+  // MIDI STUFF
+  var midiLine = d3.svg.line()
+    .x(function (d, i) { return x(d[0]); })
+    .y(function (d, i) { return y(d[1]); });
+
+  var midiPath = svg.append("g")
+    .append("path")
+    .attr("class", "bpm midi")
+    .data([midiBpms]);
+
+  xBeat.addEventListener('x-beat-detected', function () {
+    var now = performance.now() / 1000;
+    if (lastMidiBeat) {
+      var beatDuration = now - lastMidiBeat;
+      midiBpms.push([now, 60 / beatDuration]);
+      while (x(midiBpms[0][0]) < -100) midiBpms.shift();
+    }
+    lastMidiBeat = now;
+  });
+
+  var visualLine = d3.svg.line()
+    .x(function (d, i) { return x(d[0]); })
+    .y(function (d, i) { return y(d[1]); });
+
+  var visualPath = svg.append("g")
+    .append("path")
+    .attr("class", "bpm visual")
+    .data([visualBpms]);
+
+  xBeat.addEventListener('x-beat-visual-beat', function () {
+    var now = performance.now() / 1000;
+    if (lastVisualBeat) {
+      var beatDuration = now - lastVisualBeat;
+      visualBpms.push([now, 60 / beatDuration]);
+      while (x(visualBpms[0][0]) < -100) visualBpms.shift();
+    }
+    lastVisualBeat = now;
+  });
+
+  var animate = function () {
+    requestAnimationFrame(animate);
+
+    var now = performance.now() / 1000;
+    x.domain([now - 10, now + 2]);
+    axis.call(x.axis);
+
+    midiPath.attr("d", midiLine);
+    visualPath.attr("d", visualLine);
+  }
+  animate();
+
+})(d3);
