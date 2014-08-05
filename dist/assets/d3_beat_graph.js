@@ -44,7 +44,7 @@
 
 (function (d3) {
   var xBeat = document.querySelector('x-beat'),
-    lastMidiBeat, lastVisualBeat, midiBpms = [], visualBpms = [];
+    lastMidiBeat, midiBpms = [], visualBpms = [];
 
   var now = performance.now() / 1000,
     width = 800,
@@ -96,14 +96,12 @@
     .attr("class", "bpm visual")
     .data([visualBpms]);
 
-  xBeat.addEventListener('x-beat-visual-beat', function () {
-    var now = performance.now() / 1000;
-    if (lastVisualBeat) {
-      var beatDuration = now - lastVisualBeat;
-      visualBpms.push([now, 60 / beatDuration]);
+  xBeat.addEventListener('x-beat-visual-beat', function (e) {
+    var previousBeat = e.detail[0] / 1000,
+      nextBeat = e.detail[1] / 1000,
+      beatDuration = nextBeat - previousBeat;
+      visualBpms.push([previousBeat, 60 / beatDuration]);
       while (x(visualBpms[0][0]) < -100) visualBpms.shift();
-    }
-    lastVisualBeat = now;
   });
 
   var animate = function () {

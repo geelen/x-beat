@@ -12,6 +12,13 @@ class ClockEmitter {
     this.emitClock();
   }
 
+  emitVisualBeat() {
+    this.beatNr++;
+    this.xBeat.dispatchEvent(new CustomEvent('x-beat-visual-beat', {
+      detail: [this.lastVisualBeat, this.nextVisualBeat]
+    }), true);
+  }
+
   beatDetected() {
     var nowBeat = performance.now(),
       lastBeatDuration = nowBeat - this.lastRealBeat;
@@ -22,6 +29,7 @@ class ClockEmitter {
       if (lastBeatDuration) {
         this.beatDurationEstimate = lastBeatDuration;
         this.nextVisualBeat = nowBeat + lastBeatDuration;
+        this.emitVisualBeat();
       }
     }
 
@@ -30,14 +38,14 @@ class ClockEmitter {
     this.lastRealBeat = nowBeat;
     if (isNaN(lastBeatDuration)) return;
 
-    console.log("LAST BEAT DURATION: " + lastBeatDuration);
-    console.log("BEAT ESTIMATE: " + this.beatDurationEstimate)
+//    console.log("LAST BEAT DURATION: " + lastBeatDuration);
+//    console.log("BEAT ESTIMATE: " + this.beatDurationEstimate)
     var adjustment, newInformationBlend = 0.2, speedUp = 0.1;
     if (timeFast < timeSlow) {
-      console.log("FAST BY " + timeFast)
+//      console.log("FAST BY " + timeFast)
       adjustment = timeFast * speedUp * -1;
     } else {
-      console.log("SLOW BY " + timeSlow)
+//      console.log("SLOW BY " + timeSlow)
       adjustment = timeSlow * speedUp;
     }
     this.beatDurationEstimate =
@@ -50,10 +58,9 @@ class ClockEmitter {
     requestAnimationFrame(this.emitClock);
     var nowFrame = performance.now();
     if (nowFrame >= this.nextVisualBeat) {
-      this.xBeat.dispatchEvent(new CustomEvent('x-beat-visual-beat'), true);
       this.lastVisualBeat = this.nextVisualBeat;
       this.nextVisualBeat = this.lastVisualBeat + this.beatDurationEstimate;
-      this.beatNr++;
+      this.emitVisualBeat();
     }
     var beat = new CustomEvent('x-beat-clock', {
       detail: [this.beatNr, this.beatDurationEstimate, (nowFrame - this.lastVisualBeat) / this.beatDurationEstimate]

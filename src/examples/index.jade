@@ -23,11 +23,16 @@ block content
     .axis text {
       display: none;
     }
-    .bpm.midi {
+    .midi {
+      color: blue;
       stroke: blue;
     }
-    .bpm.visual {
+    .visual {
+      color: red;
       stroke: red;
+    }
+    p > span {
+      margin-right: 2em;
     }
     /*path.red {*/
       /*stroke: rgba(255,0,0,0.5);*/
@@ -40,6 +45,9 @@ block content
     /*}*/
 
   x-beat(midi channel="0" note="65")
+  p
+    span.midi MIDI BEAT SIGNAL
+    span.visual X-GIF CLOCK
   svg.d3-svg
   svg.raw-svg
   script(src="assets/d3.min.js")

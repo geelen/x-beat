@@ -41,11 +41,16 @@
     .axis text {
       display: none;
     }
-    .bpm.midi {
+    .midi {
+      color: blue;
       stroke: blue;
     }
-    .bpm.visual {
+    .visual {
+      color: red;
       stroke: red;
+    }
+    p > span {
+      margin-right: 2em;
     }
     /*path.red {*/
       /*stroke: rgba(255,0,0,0.5);*/
@@ -59,6 +64,7 @@
     
   </style>
   <x-beat midi channel="0" note="65"></x-beat>
+  <p><span class="midi">MIDI BEAT SIGNAL</span><span class="visual">X-GIF CLOCK</span></p>
   <svg class="d3-svg"></svg>
   <svg class="raw-svg"></svg>
   <script src="assets/d3.min.js"></script>
