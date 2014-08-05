@@ -1905,9 +1905,16 @@ var $__default = (function() {
   return ($traceurRuntime.createClass)(ClockEmitter, {
     beatDetected: function() {
       var nowBeat = performance.now(),
-          timeFast = this.nextVisualBeat - nowBeat,
-          timeSlow = nowBeat - this.lastVisualBeat,
           lastBeatDuration = nowBeat - this.lastRealBeat;
+      if (nowBeat > this.nextVisualBeat) {
+        this.lastVisualBeat = nowBeat;
+        if (lastBeatDuration) {
+          this.beatDurationEstimate = lastBeatDuration;
+          this.nextVisualBeat = nowBeat + lastBeatDuration;
+        }
+      }
+      var timeFast = this.nextVisualBeat - nowBeat,
+          timeSlow = nowBeat - this.lastVisualBeat;
       this.lastRealBeat = nowBeat;
       if (isNaN(lastBeatDuration))
         return;
