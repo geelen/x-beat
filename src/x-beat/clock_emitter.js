@@ -40,6 +40,7 @@ class ClockEmitter {
     requestAnimationFrame(this.emitClock);
     var nowFrame = performance.now();
     if (nowFrame >= this.nextVisualBeat) {
+      this.xBeat.dispatchEvent(new CustomEvent('x-beat-visual-beat'), true);
       this.lastVisualBeat = this.nextVisualBeat;
       this.nextVisualBeat = this.lastVisualBeat + this.beatDurationEstimate;
       this.beatNr++;

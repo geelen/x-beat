@@ -1,25 +1,32 @@
 extends _layout.jade
 block content
-  style.
-    x-gif {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-    h1 {
-      background-color: rgba(255,255,255,0.1);
-      float: left;
-    }
   h1= "<x-beat>"
-  x-beat(midi channel="0" note="65")
-  x-gif(src="https://s3-us-west-2.amazonaws.com/x-gif-tests/explosion.gif" sync ping-pong fill)
-  script.
-    var xBeat = document.querySelector('x-beat'),
-      xGif = document.querySelector('x-gif');
+  style.
+    @keyframes slide {
+      0%,100% {
+        transform: translateX(-100px);
+      }
+    }
+    svg {
+      width: 800px;
+      height: 400px;
+    }
+    path {
+      stroke: #000;
+      stroke-width: 1px;
+      shape-rendering: crispEdges;
+      transform: translateX(800px);
+      transition: all 10s linear;
+    }
+    path.red {
+      stroke: rgba(255,0,0,0.5);
+    }
+    path.blue {
+      stroke: rgba(0,0,255,0.5);
+    }
+    path.gtfo {
+      transform: translateX(-800px);
+    }
 
-    xBeat.addEventListener('x-beat-clock', function(e) {
-      xGif.clock.apply(xGif, e.detail);
-    })
+  x-beat(midi channel="0" note="65")
+  script(src="assets/d3_beat_graph.js")
