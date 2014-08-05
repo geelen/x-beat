@@ -14,9 +14,19 @@ class ClockEmitter {
 
   beatDetected() {
     var nowBeat = performance.now(),
-      timeFast = this.nextVisualBeat - nowBeat,
-      timeSlow = nowBeat - this.lastVisualBeat,
       lastBeatDuration = nowBeat - this.lastRealBeat;
+    if (nowBeat > this.nextVisualBeat) {
+      // This can happen if you change tabs. Events still get fired but
+      // requestAnimationFrame doesn't. May as well reset our estimates
+      this.lastVisualBeat = nowBeat;
+      if (lastBeatDuration) {
+        this.beatDurationEstimate = lastBeatDuration;
+        this.nextVisualBeat = nowBeat + lastBeatDuration;
+      }
+    }
+
+    var timeFast = this.nextVisualBeat - nowBeat,
+      timeSlow = nowBeat - this.lastVisualBeat;
     this.lastRealBeat = nowBeat;
     if (isNaN(lastBeatDuration)) return;
 
