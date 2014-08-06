@@ -1,0 +1,17 @@
+{
+  "name": "x-beat",
+  "version": "0.0.1",
+  "homepage": "https://github.com/geelen/x-beat",
+  "authors": [
+    "Glen Maddern <glenmaddern@gmail.com>"
+  ],
+  "main": "dist/x-beat/x-beat.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
