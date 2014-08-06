@@ -58,9 +58,15 @@
     .domain([60, 200])
     .range([height, 0]);
 
-  var svg = d3.select(".d3-svg")
+  var svg = d3.select(".d3-svg");
+  svg.append("defs").append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
     .attr("width", width)
     .attr("height", height);
+
+//    .attr("width", width)
+//    .attr("height", height);
 
   var axis = svg.append("g")
     .attr("class", "x axis")
@@ -73,6 +79,7 @@
     .y(function (d, i) { return y(d[1]); });
 
   var midiPath = svg.append("g")
+    .attr("clip-path", "url(#clip)")
     .append("path")
     .attr("class", "bpm midi")
     .data([midiBpms]);
@@ -92,6 +99,7 @@
     .y(function (d, i) { return y(d[1]); });
 
   var visualPath = svg.append("g")
+    .attr("clip-path", "url(#clip)")
     .append("path")
     .attr("class", "bpm visual")
     .data([visualBpms]);
@@ -100,8 +108,8 @@
     var previousBeat = e.detail[0] / 1000,
       nextBeat = e.detail[1] / 1000,
       beatDuration = nextBeat - previousBeat;
-      visualBpms.push([previousBeat, 60 / beatDuration]);
-      while (x(visualBpms[0][0]) < -100) visualBpms.shift();
+    visualBpms.push([previousBeat, 60 / beatDuration]);
+    while (visualBpms[0] && x(visualBpms[0][0]) < -100) visualBpms.shift();
   });
 
   var animate = function () {
