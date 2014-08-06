@@ -1863,22 +1863,19 @@ var XBeat = function XBeat() {
 };
 var $XBeat = XBeat;
 ($traceurRuntime.createClass)(XBeat, {createdCallback: function() {
+    this.clockEmitter = new ClockEmitter(this);
     if (!this.hasAttribute('midi')) {
-      console.error("Only the MIDI version of an x-beat is currently implemented!");
       return;
     }
     if (!navigator.requestMIDIAccess) {
-      console.error("Native MIDI access is only supported in Chrome with a flag. Go to chrome://flags/#enable-web-midi to turn it on!");
       return;
     }
     var maybeChannel = parseInt(this.getAttribute('channel')),
         maybeNote = parseInt(this.getAttribute('note'));
     if (isNaN(maybeChannel) || isNaN(maybeNote)) {
-      console.error("Both CHANNEL and NOTE are required for a MIDI x-beat!");
       return;
     }
     this.beatListener = new MidiListener(this, maybeChannel, maybeNote);
-    this.clockEmitter = new ClockEmitter(this);
   }}, {}, HTMLElement);
 document.registerElement('x-beat', XBeat);
 
@@ -1972,9 +1969,6 @@ var $__default = (function() {
           console.error("No MIDI input detected!");
           return;
         }
-        console.log("OK WAT");
-        console.log($__0.channel);
-        console.log($__0.note);
         $__0.input.addEventListener('midimessage', $__0.midiMessage.bind($__0));
       }));
     },

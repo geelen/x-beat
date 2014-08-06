@@ -2,8 +2,9 @@
 <html></html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width initial-scale=1.0">
   <title><x-beat></title>
+  <link rel="stylesheet" href="assets/basscss.min.css">
   <script>
     if ('registerElement' in document
       && 'createShadowRoot' in HTMLElement.prototype
@@ -32,9 +33,8 @@
       float: left;
     }
   </style>
-  <h1>&lt;x-beat&gt;</h1>
   <x-beat midi channel="0" note="65"></x-beat>
-  <x-gif src="https://s3-us-west-2.amazonaws.com/x-gif-tests/explosion.gif" sync ping-pong fill></x-gif>
+  <x-gif sync ping-pong fill></x-gif>
   <script>
     var xBeat = document.querySelector('x-beat'),
       xGif = document.querySelector('x-gif');
@@ -42,5 +42,22 @@
     xBeat.addEventListener('x-beat-clock', function(e) {
       xGif.clock.apply(xGif, e.detail);
     })
+    
+    var gifs = [
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/explosion.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/fall.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/jump.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/pulse.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/shocked.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/ticked.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/yeahnah.gif'
+    ], gifNr = 0;
+    
+    function changeGif() {
+      setTimeout(changeGif, 5000);
+      xGif.setAttribute('src', gifs[gifNr]);
+      gifNr = (gifNr + 1) % gifs.length;
+    }
+    changeGif();
   </script>
 </body>

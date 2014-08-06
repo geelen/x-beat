@@ -13,9 +13,8 @@ block content
       background-color: rgba(255,255,255,0.1);
       float: left;
     }
-  h1= "<x-beat>"
   x-beat(midi channel="0" note="65")
-  x-gif(src="https://s3-us-west-2.amazonaws.com/x-gif-tests/explosion.gif" sync ping-pong fill)
+  x-gif(sync ping-pong fill)
   script.
     var xBeat = document.querySelector('x-beat'),
       xGif = document.querySelector('x-gif');
@@ -23,3 +22,20 @@ block content
     xBeat.addEventListener('x-beat-clock', function(e) {
       xGif.clock.apply(xGif, e.detail);
     })
+
+    var gifs = [
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/explosion.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/fall.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/jump.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/pulse.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/shocked.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/ticked.gif',
+      'https://s3-us-west-2.amazonaws.com/x-gif-tests/yeahnah.gif'
+    ], gifNr = 0;
+
+    function changeGif() {
+      setTimeout(changeGif, 5000);
+      xGif.setAttribute('src', gifs[gifNr]);
+      gifNr = (gifNr + 1) % gifs.length;
+    }
+    changeGif();

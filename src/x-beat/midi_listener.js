@@ -15,9 +15,9 @@ export default class MidiListener {
         return;
       }
 
-      console.log("OK WAT")
-      console.log(this.channel)
-      console.log(this.note)
+//      console.log("OK WAT")
+//      console.log(this.channel)
+//      console.log(this.note)
       this.input.addEventListener('midimessage', this.midiMessage.bind(this));
     })
   }

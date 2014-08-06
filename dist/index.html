@@ -2,8 +2,9 @@
 <html></html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width initial-scale=1.0">
   <title><x-beat></title>
+  <link rel="stylesheet" href="assets/basscss.min.css">
   <script>
     if ('registerElement' in document
       && 'createShadowRoot' in HTMLElement.prototype
@@ -20,14 +21,16 @@
 <body>
   <h1>&lt;x-beat&gt;</h1>
   <style>
-    @keyframes slide {
-      0%,100% {
-        transform: translateX(-100px);
-      }
+    body {
+      padding: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
     }
     svg {
       padding: 1rem 0;
       font: 12px 'Helvetica Neue';
+      width: 100%;
+      max-height: 200px;
     }
     path {
       fill: none;
@@ -49,24 +52,56 @@
       color: red;
       stroke: red;
     }
+    footer {
+      border-top: solid 1px #ccc;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      text-align: center;
+    }
+    .me {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+    }
+    pre {
+      background-color: #eee;
+      margin: 1rem;
+      padding: 1rem;
+      width: intrinsic;
+      margin: 1rem auto;
+    }
     p > span {
       margin-right: 2em;
     }
-    /*path.red {*/
-      /*stroke: rgba(255,0,0,0.5);*/
-    /*}*/
-    /*path.blue {*/
-      /*stroke: rgba(0,0,255,0.5);*/
-    /*}*/
-    /*path.gtfo {*/
-      /*transform: translateX(-800px);*/
-    /*}*/
     
   </style>
   <x-beat midi channel="0" note="65"></x-beat>
-  <p><span class="midi">MIDI BEAT SIGNAL</span><span class="visual">X-GIF CLOCK</span></p>
-  <svg class="d3-svg"></svg>
-  <svg class="raw-svg"></svg>
+  <h3 class="regular">A Web Component for generating a continuous stream of beats from (currently) MIDI and (soon) Web Audio for the synchronising of GIFs to music. <a target="_blank" href="https://github.com/geelen/x-beat">Source on GitHub</a>.
+  </h3>
+  <p><span class="midi">MIDI BEAT SIGNAL</span><span><span class="visual">PREDICTED BEATS</span> (to drive an x-gif)</span></p>
+  <svg viewBox="0 0 800 200" class="d3-svg"></svg>
   <script src="assets/d3.min.js"></script>
   <script src="assets/d3_beat_graph.js"></script>
+  <p>Can't see any blue lines? You gotta get yourself a browser that has the <a target="_blank" href="http://www.w3.org/TR/webmidi">Web MIDI API</a> enabled (Chrome stable + enable this flag: chrome://flags/#enable-web-midi).
+    Then get something to generate MIDI beats from audio (<a target="_blank" href="http://wavesum.net/products.html#wavetick">Wavetick</a> works really well, and instructions for setting up a MIDI bus to connect it to Chrome are <a target="_blank" href="http://www.wavesum.net/support/configure-sotware-and-network-midi-on-osx/">here</a>), then play some music!
+  </p>
+  <p>Once that's all working, check it out <a target="_blank" href="x-gif.html">powering &lt;x-gif&gt;!</a> It takes this much code to wire them together :D
+    <pre><code>var xBeat = document.querySelector('x-beat'),
+  xGif = document.querySelector('x-gif');
+
+xBeat.addEventListener('x-beat-clock', function(e) {
+  xGif.clock.apply(xGif, e.detail);
+});</code></pre>
+  </p>
+  <p>If you know more about this stuff than me and want to help contribute, here's how I see this going:
+    <ul>
+      <li>Figure out a really robust beat-tracking algorithm, so even if the input is noisy or disappears, x-beat is still producing smooth output. <a target="_blank" href="https://github.com/geelen/x-beat/issues/1">Discuss on GitHub</a>
+      </li>
+      <li>Replace the MIDI input with in-browser beat detection written in JS using the Web Audio API. <a target="_blank" href="https://github.com/geelen/x-beat/issues/2">Discuss on GitHub</a>
+      </li>
+    </ul>
+  </p>
+  <footer>
+    <h3>Made with &lt;3 and ¯\_(ツ)_/¯ by</h3><a target="_blank" href="https://twitter.com/glenmaddern"><img src="http://i.imgur.com/x577Tga.jpg" alt="" class="me"><br>@glenmaddern</a>
+  </footer>
 </body>
